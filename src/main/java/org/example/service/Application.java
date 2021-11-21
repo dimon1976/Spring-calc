@@ -20,13 +20,6 @@ public class Application {
     private static final String ENTERLOGIN = "Enter login:";
     private static final String ENTERPASSWORD = "Enter password:";
 
-
-//    public Application(ConsoleReader cr, ConsoleWriter cw) {
-//        this.cr = cr;
-//        this.cw = cw;
-//    }
-
-
     public Application(InMemoryStorage storage, UserService userService, ConsoleReader cr, ConsoleWriter cw) {
         this.storage = storage;
         this.userService = userService;
