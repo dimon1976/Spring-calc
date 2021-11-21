@@ -13,11 +13,13 @@ public class Application {
     private UserService userService = new UserService();
     private final ConsoleReader cr = new ConsoleReader(scanner);
     private final ConsoleWriter cw = new ConsoleWriter();
-    private static final String num = "Input number:";
-    private static final String operation = "Enter operation +, -, *, /  e - Exit";
-    private static final String wrongType = "You entered the wrong type!";
-    private static final String wrongNumber = "Wrong number!";
-    private boolean status = false;
+    private static final String NUM = "Input number:";
+    private static final String OPERATION = "Enter operation +, -, *, /  e - Exit";
+    private static final String WRONGTYPE = "You entered the wrong type!";
+    private static final String WRONGNUMBER = "Wrong number!";
+    private static final String ENTERLOGIN = "Enter login:";
+    private static final String ENTERPASSWORD = "Enter password:";
+
 
 //    public Application(ConsoleReader cr, ConsoleWriter cw) {
 //        this.cr = cr;
@@ -25,7 +27,19 @@ public class Application {
 //    }
 
 
-    public void menu() {
+    public void menu(User user) {
+        if (user != null) {
+            cw.print("1) - Calculator");
+            cw.print("2) - History operation");
+            cw.print("3) - Logout");
+            cw.print("4) - Exit");
+            int i = getInt();
+            if (i == 4) {
+                cw.print("Exit");
+                System.exit(i);
+            }
+            userChoice(i, user);
+        }
         cw.print("1) - Register");
         cw.print("2) - Authorization");
         cw.print("3) - Exit");
@@ -33,32 +47,18 @@ public class Application {
         getChoice(i);
     }
 
-    public void userMenu(User user) {
-        cw.print("1) - Calculator");
-        cw.print("2) - History operation");
-        cw.print("3) - Logout");
-        cw.print("4) - Exit");
-        int i = getInt();
-        if (i == 4) {
-            cw.print("Exit");
-            System.exit(i);
-        }
-        userChoice(i, user);
-    }
-
     public void run(User user) {
-        while (!status) {
-            cw.print(operation);
+        while (true) {
+            cw.print(OPERATION);
             String op = getLine();
             if (op.equals("e")) {
-                status = false;
                 cw.print("Exit to menu");
-                userMenu(user);
+                menu(user);
                 break;
             }
-            cw.print(num);
+            cw.print(NUM);
             double a = getDouble();
-            cw.print(num);
+            cw.print(NUM);
             double b = getDouble();
             cr.getSc().nextLine();
             double result = getOperation(op, a, b, user);
@@ -69,36 +69,39 @@ public class Application {
     private void getChoice(int i) {
         switch (i) {
             case 1:
-                cw.print("Enter login:");
+                cw.print(ENTERLOGIN);
                 String login = getLine();
                 if (userService.findByName(login)) {
                     cw.print("User already exist");
-                    menu();
+                    menu(null);
                     break;
                 } else {
-                    cw.print("Enter password:");
+                    cw.print(ENTERPASSWORD);
                     String password = getLine();
-                    User user = new User(password, login);
                     userService.saveUser(login, password);
                     getChoice(2);
                 }
-
                 break;
             case 2:
                 cw.print("Authorization - enter login:");
                 User user = userService.getUser(getLine());
-                cw.print("enter password:");
+                cw.print(ENTERPASSWORD);
                 String pass = getLine();
-                if (user.getPassword().equals(pass)) {
-                    cw.print("you are logged in");
-                    userMenu(user);
-                    break;
+                if (user != null) {
+                    if (user.getPassword().equals(pass)) {
+                        cw.print("you are logged in");
+                        menu(user);
+                        break;
+                    }
                 }
+                cw.print("User not found.");
+                menu(null);
+                break;
             case 3:
                 System.exit(3);
             default:
-                cw.print(wrongNumber);
-                menu();
+                cw.print(WRONGNUMBER);
+                menu(null);
                 break;
         }
     }
@@ -111,19 +114,19 @@ public class Application {
             case 2:
                 if (user.getResultList() != null) {
                     cw.printDoubleList(user.getResultList());
-                    userMenu(user);
+                   menu(user);
                     break;
                 }
                 cw.print("Result list is empty");
-                userMenu(user);
+                menu(user);
                 break;
             case 3:
                 user = null;
-                menu();
+                menu(user);
                 break;
             default:
-                cw.print(wrongNumber);
-                userMenu(user);
+                cw.print(WRONGNUMBER);
+                menu(user);
                 break;
         }
     }
@@ -143,7 +146,7 @@ public class Application {
                 storage.save((CalcService.division(a, b)), user);
                 return CalcService.division(a, b);
             default:
-                cw.print(wrongType);
+                cw.print(WRONGTYPE);
                 return getOperation(getLine(), a, b, user);
         }
     }
@@ -151,7 +154,7 @@ public class Application {
     private double getDouble() {
         while (!cr.getSc().hasNextDouble()) {
             cr.getSc().next();
-            cw.print(wrongType);
+            cw.print(WRONGTYPE);
         }
         return cr.getSc().nextDouble();
     }
@@ -163,7 +166,7 @@ public class Application {
     private int getInt() {
         while (!cr.getSc().hasNextInt()) {
             cr.getSc().next();
-            cw.print(wrongType);
+            cw.print(WRONGTYPE);
         }
         return cr.getSc().nextInt();
     }

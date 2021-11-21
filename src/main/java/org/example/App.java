@@ -18,6 +18,6 @@ public class App {
 //        application.menu();
 
         Application application = new Application();
-        application.menu();
+        application.menu(null);
     }
 }
