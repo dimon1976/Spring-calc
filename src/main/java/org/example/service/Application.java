@@ -4,15 +4,15 @@ import org.example.console.ConsoleReader;
 import org.example.console.ConsoleWriter;
 import org.example.entity.User;
 import org.example.storage.InMemoryStorage;
+import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
 
+@Component
 public class Application {
-    Scanner scanner = new Scanner(System.in);
-    InMemoryStorage storage = new InMemoryStorage();
-    private UserService userService = new UserService();
-    private final ConsoleReader cr = new ConsoleReader(scanner);
-    private final ConsoleWriter cw = new ConsoleWriter();
+    InMemoryStorage storage;
+    private UserService userService;
+    private final ConsoleReader cr;
+    private final ConsoleWriter cw;
     private static final String NUM = "Input number:";
     private static final String OPERATION = "Enter operation +, -, *, /  e - Exit";
     private static final String WRONGTYPE = "You entered the wrong type!";
@@ -26,6 +26,13 @@ public class Application {
 //        this.cw = cw;
 //    }
 
+
+    public Application(InMemoryStorage storage, UserService userService, ConsoleReader cr, ConsoleWriter cw) {
+        this.storage = storage;
+        this.userService = userService;
+        this.cr = cr;
+        this.cw = cw;
+    }
 
     public void menu(User user) {
         if (user != null) {

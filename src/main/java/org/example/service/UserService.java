@@ -2,12 +2,17 @@ package org.example.service;
 
 import org.example.entity.User;
 import org.example.storage.InMemoryStorage;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class UserService {
+    private InMemoryStorage storage;
 
-    private InMemoryStorage storage = new InMemoryStorage();
+    public UserService(InMemoryStorage storage) {
+        this.storage = storage;
+    }
 
     public boolean findByName(String name) {
         List<User> usersList = storage.getUsersList();

@@ -1,14 +1,18 @@
 package org.example.storage;
 
 import org.example.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class InMemoryStorage {
+    private LinkedList<User> usersList;
 
-    private LinkedList<User> usersList = new LinkedList<>();
-
+    public InMemoryStorage(LinkedList<User> usersList) {
+        this.usersList = usersList;
+    }
 
     public List<User> getUsersList() {
         return usersList;

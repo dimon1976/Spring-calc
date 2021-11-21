@@ -1,8 +1,12 @@
 package org.example.console;
 
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 
+@Component
 public class ConsoleWriter {
+
     public void print(String message) {
         System.out.println(message);
     }

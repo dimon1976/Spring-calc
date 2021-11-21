@@ -1,7 +1,10 @@
 package org.example.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 
+@Component
 public class User {
     private String name;
     private String password;
