@@ -14,6 +14,7 @@ public class UserService {
         this.storage = storage;
     }
 
+
     public boolean findByName(String name) {
         List<User> usersList = storage.getUsersList();
         for (User r : usersList) {
@@ -23,6 +24,7 @@ public class UserService {
         }
         return false;
     }
+
 
     public User getUser(String name) {
         List<User> usersList = storage.getUsersList();
@@ -34,7 +36,9 @@ public class UserService {
         return null;
     }
 
+
     public void saveUser(String login, String password) {
         storage.getUsersList().add(new User(login, password));
     }
+
 }

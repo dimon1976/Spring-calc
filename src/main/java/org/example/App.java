@@ -18,6 +18,6 @@ public class App {
     public static void main(String[] args) {
         ApplicationContext ac = new AnnotationConfigApplicationContext(RootConfiguration.class);
         Application application = (Application) ac.getBean("application");
-        application.menu(null);
+        application.menu();
     }
 }

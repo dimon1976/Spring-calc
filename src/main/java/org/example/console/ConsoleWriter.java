@@ -11,7 +11,7 @@ public class ConsoleWriter {
         System.out.println(message);
     }
 
-    public void print(Double number) {
+    public void print(Double number) {  //Так правильно ? Нужно-ли называть по-другому?
         System.out.println(number);
     }
 

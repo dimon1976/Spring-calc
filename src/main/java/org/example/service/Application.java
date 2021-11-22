@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Application {
-    private InMemoryStorage storage;
-    private UserService userService;
+    private final InMemoryStorage storage;
+    private final UserService userService;
     private User user;
     private final ConsoleReader cr;
     private final ConsoleWriter cw;
@@ -21,6 +21,8 @@ public class Application {
     private static final String ENTERLOGIN = "Enter login:";
     private static final String ENTERPASSWORD = "Enter password:";
     private static final String EXITPROGRAMM = "Exit";
+    private static final String USERNOTFOUND = "User not found.";
+    private static final String USEREXIST = "User already exist";
 
     public Application(InMemoryStorage storage, UserService userService, ConsoleReader cr, ConsoleWriter cw) {
         this.storage = storage;
@@ -29,7 +31,7 @@ public class Application {
         this.cw = cw;
     }
 
-    public void menu(User user) {
+    public void menu() {
         if (user != null) {
             cw.print("1) - Calculator");
             cw.print("2) - History operation");
@@ -40,7 +42,7 @@ public class Application {
                 cw.print(EXITPROGRAMM);
                 System.exit(i);
             }
-            userChoice(i, user);
+            userChoice(i);
         }
         cw.print("1) - Register");
         cw.print("2) - Authorization");
@@ -49,13 +51,13 @@ public class Application {
         getChoice(i);
     }
 
-    private void calculate(User user) {
+    private void calculate() {
         while (true) {
             cw.print(OPERATION);
             String op = getLine();
             if (op.equals("e")) {
                 cw.print("Exit to menu");
-                menu(user);
+                menu();
                 break;
             }
             cw.print(NUM);
@@ -74,8 +76,9 @@ public class Application {
                 cw.print(ENTERLOGIN);
                 String login = getLine();
                 if (userService.findByName(login)) {
-                    cw.print("User already exist");
-                    menu(null);
+                    cw.print(USEREXIST);
+                    user = null;
+                    menu();
                     break;
                 } else {
                     cw.print(ENTERPASSWORD);
@@ -85,51 +88,53 @@ public class Application {
                 }
                 break;
             case 2:
-                cw.print("Authorization - enter login:");
-                User user = userService.getUser(getLine());
+                cw.print("Authorization - " + ENTERLOGIN);
+                user = userService.getUser(getLine());
                 cw.print(ENTERPASSWORD);
                 String pass = getLine();
                 if (user != null) {
                     if (user.getPassword().equals(pass)) {
                         cw.print("you are logged in");
-                        menu(user);
+                        menu();
                         break;
                     }
                 }
-                cw.print("User not found.");
-                menu(null);
+                cw.print(USERNOTFOUND);
+                user = null;
+                menu();
                 break;
             case 3:
                 cw.print(EXITPROGRAMM);
                 System.exit(3);
             default:
                 cw.print(WRONGNUMBER);
-                menu(null);
+                user=null;
+                menu();
                 break;
         }
     }
 
-    private void userChoice(int i, User user) {
+    private void userChoice(int i) {
         switch (i) {
             case 1:
-                calculate(user);
+                calculate();
                 break;
             case 2:
                 if (user.getResultList() != null) {
                     cw.printDoubleList(user.getResultList());
-                   menu(user);
+                    menu();
                     break;
                 }
                 cw.print("Result list is empty");
-                menu(user);
+                menu();
                 break;
             case 3:
                 user = null;
-                menu(user);
+                menu();
                 break;
             default:
                 cw.print(WRONGNUMBER);
-                menu(user);
+                menu();
                 break;
         }
     }
