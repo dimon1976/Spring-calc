@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ public class User {
         this.password = password;
     }
 
-    //    @Autowired
+    @Autowired
     public User() {
     }
 

@@ -9,8 +9,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Application {
-    InMemoryStorage storage;
+    private InMemoryStorage storage;
     private UserService userService;
+    private User user;
     private final ConsoleReader cr;
     private final ConsoleWriter cw;
     private static final String NUM = "Input number:";
@@ -19,6 +20,7 @@ public class Application {
     private static final String WRONGNUMBER = "Wrong number!";
     private static final String ENTERLOGIN = "Enter login:";
     private static final String ENTERPASSWORD = "Enter password:";
+    private static final String EXITPROGRAMM = "Exit";
 
     public Application(InMemoryStorage storage, UserService userService, ConsoleReader cr, ConsoleWriter cw) {
         this.storage = storage;
@@ -35,7 +37,7 @@ public class Application {
             cw.print("4) - Exit");
             int i = getInt();
             if (i == 4) {
-                cw.print("Exit");
+                cw.print(EXITPROGRAMM);
                 System.exit(i);
             }
             userChoice(i, user);
@@ -47,7 +49,7 @@ public class Application {
         getChoice(i);
     }
 
-    public void run(User user) {
+    private void calculate(User user) {
         while (true) {
             cw.print(OPERATION);
             String op = getLine();
@@ -98,6 +100,7 @@ public class Application {
                 menu(null);
                 break;
             case 3:
+                cw.print(EXITPROGRAMM);
                 System.exit(3);
             default:
                 cw.print(WRONGNUMBER);
@@ -109,7 +112,7 @@ public class Application {
     private void userChoice(int i, User user) {
         switch (i) {
             case 1:
-                run(user);
+                calculate(user);
                 break;
             case 2:
                 if (user.getResultList() != null) {

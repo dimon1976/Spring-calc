@@ -22,7 +22,7 @@ public class InMemoryStorage {
         this.usersList = usersList;
     }
 
-    public void save(Double result, User user) {
+    public void save(double result, User user) {
         if (user.getResultList() != null) {
             user.getResultList().addFirst(result);
             return;

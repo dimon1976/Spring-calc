@@ -19,8 +19,5 @@ public class App {
         ApplicationContext ac = new AnnotationConfigApplicationContext(RootConfiguration.class);
         Application application = (Application) ac.getBean("application");
         application.menu(null);
-
-//        Application application = new Application();
-//        application.menu(null);
     }
 }
