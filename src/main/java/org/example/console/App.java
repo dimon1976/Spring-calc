@@ -1,4 +1,4 @@
-package org.example;
+package org.example.console;
 
 
 //xml
@@ -10,7 +10,6 @@ package org.example;
 //field
 
 import org.example.config.RootConfiguration;
-import org.example.service.Application;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

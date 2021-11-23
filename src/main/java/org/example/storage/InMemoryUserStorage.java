@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-public class InMemoryStorage {
+public class InMemoryUserStorage {
     private LinkedList<User> usersList;
 
-    public InMemoryStorage(LinkedList<User> usersList) {
+    public InMemoryUserStorage(LinkedList<User> usersList) {
         this.usersList = usersList;
     }
 

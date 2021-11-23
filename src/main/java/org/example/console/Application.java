@@ -1,16 +1,15 @@
-package org.example.service;
+package org.example.console;
 
-import org.example.console.ConsoleReader;
-import org.example.console.ConsoleWriter;
 import org.example.entity.User;
-import org.example.storage.InMemoryStorage;
+import org.example.service.CalcService;
+import org.example.service.UserService;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class Application {
-    private final InMemoryStorage storage;
     private final UserService userService;
+    private final CalcService calcService;
     private User user;
     private final ConsoleReader cr;
     private final ConsoleWriter cw;
@@ -24,8 +23,8 @@ public class Application {
     private static final String USERNOTFOUND = "User not found.";
     private static final String USEREXIST = "User already exist";
 
-    public Application(InMemoryStorage storage, UserService userService, ConsoleReader cr, ConsoleWriter cw) {
-        this.storage = storage;
+    public Application(UserService userService, CalcService calcService, ConsoleReader cr, ConsoleWriter cw) {
+        this.calcService = calcService;
         this.userService = userService;
         this.cr = cr;
         this.cw = cw;
@@ -40,7 +39,7 @@ public class Application {
             int i = getInt();
             if (i == 4) {
                 cw.print(EXITPROGRAMM);
-                System.exit(i);
+                return;
             }
             userChoice(i);
         }
@@ -59,14 +58,15 @@ public class Application {
                 cw.print("Exit to menu");
                 menu();
                 break;
+            } else if (getOperation(op)) {
+                cw.print(NUM);
+                double a = getDouble();
+                cw.print(NUM);
+                double b = getDouble();
+                cr.getSc().nextLine();
+                double result = calcService.getOperation(op, a, b, user);
+                cw.print(result);
             }
-            cw.print(NUM);
-            double a = getDouble();
-            cw.print(NUM);
-            double b = getDouble();
-            cr.getSc().nextLine();
-            double result = getOperation(op, a, b, user);
-            cw.print(result);
         }
     }
 
@@ -105,10 +105,10 @@ public class Application {
                 break;
             case 3:
                 cw.print(EXITPROGRAMM);
-                System.exit(3);
+                return;
             default:
                 cw.print(WRONGNUMBER);
-                user=null;
+                user = null;
                 menu();
                 break;
         }
@@ -139,24 +139,12 @@ public class Application {
         }
     }
 
-    private double getOperation(String op, double a, double b, User user) {
-        switch (op) {
-            case "+":
-                storage.save((CalcService.sum(a, b)), user);
-                return CalcService.sum(a, b);
-            case "-":
-                storage.save((CalcService.sub(a, b)), user);
-                return CalcService.sub(a, b);
-            case "*":
-                storage.save((CalcService.multi(a, b)), user);
-                return CalcService.multi(a, b);
-            case "/":
-                storage.save((CalcService.division(a, b)), user);
-                return CalcService.division(a, b);
-            default:
-                cw.print(WRONGTYPE);
-                return getOperation(getLine(), a, b, user);
+    private boolean getOperation(String operation) {
+        if (operation.matches("[+-/*]")) {
+            return true;
         }
+        cw.print("Wrong operation");
+        return false;
     }
 
     private double getDouble() {

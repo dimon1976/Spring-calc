@@ -1,16 +1,16 @@
 package org.example.service;
 
 import org.example.entity.User;
-import org.example.storage.InMemoryStorage;
+import org.example.storage.InMemoryUserStorage;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class UserService {
-    private InMemoryStorage storage;
+    private InMemoryUserStorage storage;
 
-    public UserService(InMemoryStorage storage) {
+    public UserService(InMemoryUserStorage storage) {
         this.storage = storage;
     }
 
