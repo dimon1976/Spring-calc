@@ -5,10 +5,10 @@ import org.example.storage.InMemoryUserStorage;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CalcService {
+public class CalcServiceTest {
    private InMemoryUserStorage storage;
 
-    public CalcService(InMemoryUserStorage storage) {
+    public CalcServiceTest(InMemoryUserStorage storage) {
         this.storage = storage;
     }
 

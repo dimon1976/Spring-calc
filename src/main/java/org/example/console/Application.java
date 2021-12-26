@@ -1,7 +1,7 @@
 package org.example.console;
 
 import org.example.entity.User;
-import org.example.service.CalcService;
+import org.example.service.CalcServiceTest;
 import org.example.service.UserService;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Application {
     private final UserService userService;
-    private final CalcService calcService;
+    private final CalcServiceTest calcService;
     private User user;
     private final ConsoleReader cr;
     private final ConsoleWriter cw;
@@ -23,7 +23,7 @@ public class Application {
     private static final String USERNOTFOUND = "User not found.";
     private static final String USEREXIST = "User already exist";
 
-    public Application(UserService userService, CalcService calcService, ConsoleReader cr, ConsoleWriter cw) {
+    public Application(UserService userService, CalcServiceTest calcService, ConsoleReader cr, ConsoleWriter cw) {
         this.calcService = calcService;
         this.userService = userService;
         this.cr = cr;
